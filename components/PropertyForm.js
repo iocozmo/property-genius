@@ -189,12 +189,12 @@ function PropertyForm({newPropertyCallback}) {
     const propertyDetailsString = Object.entries(formData)
     .map(([key, value]) => `${key}: ${value}`)
     .join("\n");
-    console.log("propertyDetailsString", typeof(propertyDetailsString))
+    // console.log("propertyDetailsString", typeof(propertyDetailsString))
 
     const propertyResultsString = Object.entries(resultsObj)
     .map(([key, value]) => `${key}: ${value.toFixed(2)}`)
     .join("\n");
-    console.log(propertyResultsString)
+    // console.log(propertyResultsString)
     
     const dbObj = {
       ...formData, 
