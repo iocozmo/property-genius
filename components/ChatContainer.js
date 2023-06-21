@@ -24,7 +24,7 @@ function ChatContainer({numProperties, isNew, selectedProperty}) {
         )
     } else {
         return (
-            <Flex p={'4'} flex={'5'} direction={'column'} maxHeight="calc(100vh - 120px)" alignItems={'center'} justifyContent={'flex-start'}>             
+            <Flex p={'4'} flex={'4'} direction={'column'} maxHeight="calc(100vh - 120px)" alignItems={'center'} justifyContent={'flex-start'}>             
                 <Chat selectedProperty={selectedProperty} />
                 <ChatInput selectedProperty={selectedProperty} />            
             </Flex>
