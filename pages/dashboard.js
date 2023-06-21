@@ -1,7 +1,7 @@
 import ChatContainer from "@/components/ChatContainer";
 import { supabase } from "@/lib/client";
-import { ArrowRightIcon, EditIcon } from "@chakra-ui/icons";
-import { Box, Button, Card, CardBody, Center, Divider, Flex, FormControl, FormLabel, Heading, IconButton, Input, InputGroup, InputRightElement, Select, Stack, StackDivider, Text } from "@chakra-ui/react";
+import { ArrowRightIcon, CheckIcon, CloseIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { Box, Button, Card, CardBody, Center, Divider, Flex, Heading, IconButton, Input, InputGroup, InputRightElement, Stack, StackDivider, Text } from "@chakra-ui/react";
 // import { error } from "console";
 import { useEffect, useState } from "react";
 
@@ -53,142 +53,78 @@ function PropertyChat({hasChat}) {
 
 }
 
-function PropertyForm({isNew, newPropertyCallback}) {
-  if (isNew) {
-    return (
-      <Flex direction={'column'} p={'4'}>
-              <Heading textAlign={'center'} size="lg" mb={'4'}>Add Your New Property</Heading>
-              <Heading size="md" mb={'4'}>Enter Your Property Details</Heading>
-                      <FormControl mt={4}>
-                        <FormLabel>Property Name</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl mt={4}>
-                        <FormLabel>Property Price ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Monthly Rent</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Down Payment (%)</FormLabel>
-                        <Select placeholder='Select Percent'>
-                          <option>0%</option>
-                          <option>5%</option>
-                          <option>10%</option>
-                          <option>15%</option>
-                          <option>20%</option>
-                          <option>25%</option>
-                      </Select>
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Closing Costs ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Seller Credits ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Interest Rate (%)</FormLabel>
-                        <Input />
-                      </FormControl> 
-                      <FormControl>
-                        <FormLabel>Loan Term (years)</FormLabel>
-                        <Select placeholder='Select Years'>
-                          <option>15</option>
-                          <option>20</option>
-                          <option>25</option>
-                          <option>30</option>
-                          <option>40</option>
-                      </Select>
-                      </FormControl>       
-                      <Heading size="md" mb={'4'}>Property Expenses</Heading>
-                      <FormControl>
-                        <FormLabel>Property Taxes ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Property Management ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Maintenance ($)</FormLabel>
-                        <Input/>
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Vacancy ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl >
-                        <FormLabel>Insurance ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Association Fees ($)</FormLabel>
-                        <Input/>
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Electricity ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Flood Insurance ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Gas ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Janitorial Service ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Landscaping ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Liability Insurance ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Mortgage Insurance ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Other Utilities ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Supplies ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Trash ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <FormControl>
-                        <FormLabel>Miscellaneous ($)</FormLabel>
-                        <Input />
-                      </FormControl>
-                      <Button colorScheme="messenger" my={'4'}
-                      onClick={() => newPropertyCallback()}
-                      >Calculate Property</Button>
-            </Flex>
-    )
+function DeleteBox({propertyId}) {
+  const [isDeleting, setIsDeleting] = useState(false);
+  const confirmDelete = async () => {
+    console.log("PROP ID", propertyId)
+    try {
+      const {data, error} = await supabase
+      .from('Properties')
+      .delete()
+      .eq('id', propertyId);
+      if (error) {
+        console.log(error)
+      }
+    } catch (error) {
+      console.log("Could not delete property", error)
+    }
   }
   
+  const handleDeleteAttempt = () => {
+    setIsDeleting(!isDeleting);
+  }  
+  if  (isDeleting) {
+    return (
+      <Flex>
+        <IconButton
+          bgColor={'gray.50'}
+          color={'black'}
+          boxSize={6}
+          icon={<CheckIcon />}
+          onClick={confirmDelete}
+        ></IconButton>
+        <IconButton
+          bgColor={'gray.50'}
+          color={'black'}
+          boxSize={6}
+          icon={<CloseIcon />}
+          onClick={handleDeleteAttempt}
+        ></IconButton>  
+      </Flex>
+    )
+  }
+  return (
+    <Flex>
+      <IconButton
+        bgColor={'gray.50'}
+        color={'black'}
+        boxSize={6}
+        icon={<DeleteIcon />}
+        onClick={handleDeleteAttempt}
+        ></IconButton>  
+    </Flex>
+  )
 }
 
+
 function PropertyCard({hasList, property, isSelected, onClick}) {
+  const propertyId = property.id;
+  const [isDeleting, setIsDeleting] = useState();
+  const handleDeleteAttempt = () => {
+    setIsDeleting(!isDeleting)
+  }
   if (hasList) {
     return (
       <Card my={'4'} bgColor={isSelected ? 'gray.50' : 'gray.200'} cursor={'pointer'} onClick={onClick}>
               <CardBody>
                 <Stack divider={<StackDivider />} spacing='2'>
+                <Flex alignItems={'center'} justifyContent={'space-between'}>
                 <Heading size='md'>{property.property_name}</Heading>
+                {isSelected && (
+                  <DeleteBox propertyId={propertyId} /> 
+                )                  
+                }                
+                </Flex>
                 <Box>
                     <Text pt='2' fontSize='md'>
                     <b>Cash Needed to Close:</b> {property.cash_needed_to_close}
@@ -214,6 +150,8 @@ export default function Dashboard() {
     const [hasList, setHasList] = useState(false)
     const [selectedProperty, setSelectedProperty] = useState(null);
     const [numProperties, setNumProperties] = useState()
+    const [newProperty, setNewProperty] = useState()
+    const [deleteProperty, setDeleteProperty]  = useState();
 
     function createNewProperty() {
       setIsNew(true)
@@ -225,7 +163,7 @@ export default function Dashboard() {
       setIsNew(true)
     }
     const handleCardClick = (id) => {
-      console.log("PRoperrty IDD", id)
+      console.log("Property ID", id)
       setSelectedProperty(id)
       setIsNew(false)
     }
@@ -238,26 +176,62 @@ export default function Dashboard() {
     const [initialProperties, setInitialProperties] = useState()
     const [properties, setProperties] = useState()
     const [isLoadingProperties, setIsLoadingProperties] = useState(false)
+    
     useEffect(() => {
-        const getInitialProperties = async () => {
-          await supabase
-          .from('Properties')
-          .select("*")
-          .order('created_at', {ascending: false})
-          .then(res => {
-            // console.log("Response data", res.data)
-            console.log(res.data)
-            if (res.data.length > 0) {
-              setSelectedProperty(res.data[0].id)
-            }
-            setProperties(res.data)
-            setNumProperties(res.data.length)
-          })
-        }
-        console.log(properties)
-        getInitialProperties()
-        setCalculations(false)
+        const getAllProperties= async () => {
+          try {
+            await supabase
+            .from('Properties')
+            .select("*")
+            .order('created_at', {ascending: false})
+            .then(res => {
+              // console.log("Response data", res.data)
+              // console.log(res.data)
+              if (res.data.length > 0) {
+                setSelectedProperty(res.data[0].id)
+              }
+              setProperties(res.data)
+              setNumProperties(res.data.length)
+            })
+          } catch (e) {
+            console.log("Error fetching properties", error);
+          }         
+        };
+        getAllProperties()
+        const propertySubscription = supabase
+        .channel("any")
+        .on("postgres_changes", {event: "INSERT", schema: "public", table: "Properties"}, (payload) => {
+          console.log("New Property insert received", payload);                  
+          setNewProperty(payload.new)
+          // setSelectedProperty(payload.new.id);
+        })
+        .on("postgres_changes", {event: "DELETE", schema: "public", table: "Properties"}, (payload) => {
+          console.log("New Property delete received", payload);                  
+          setDeleteProperty(payload.old)
+          // setSelectedProperty(payload.new.id);
+        })
+        .subscribe();                        
+
+         // Clean up the subscription when the component unmounts
+        return () => {
+          supabase.removeChannel(propertySubscription)
+        };
     }, [])
+
+    // Property deleted
+    useEffect(() => {
+      if (deleteProperty) setProperties(properties.filter((property) => property.id !== deleteProperty.id))
+    }, [deleteProperty])
+
+    // New property added
+    useEffect(() => {
+      if (newProperty) {
+        let tempList = [...properties]
+        tempList.unshift(newProperty);
+        setProperties([...tempList]);
+        setSelectedProperty(newProperty.id)
+      } 
+    }, [newProperty])
 
     async function fetchProfile() {
         const userData = await supabase.auth.user()
