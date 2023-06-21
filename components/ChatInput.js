@@ -12,6 +12,7 @@ function ChatInput({handleInputSubmit, selectedProperty}) {
   );
   const [gptOutput, setGptOutput] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // const []
 
   const handleInputChange = (event) => {
     setUserMessage(event.target.value)
@@ -22,7 +23,7 @@ function ChatInput({handleInputSubmit, selectedProperty}) {
         const {data, error} = await supabase
         .from('Properties')
         .select('*')
-        .eq('id', 9)
+        .eq('id', selectedProperty)
         
         if (error) {
           console.log(error)
