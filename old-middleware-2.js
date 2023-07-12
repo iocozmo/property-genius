@@ -1,5 +1,4 @@
 
-
 export async function middleware(req) {
   //The line below isn't working as expected, see README.tx
   //let authResult = await supabase.auth.api.getUserByCookie(req)
