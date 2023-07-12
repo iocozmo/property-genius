@@ -2,7 +2,22 @@ import { supabase } from "@/lib/client";
 import { Button, Flex, FormControl, FormLabel, Heading, Input, Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
-function PropertyForm({newPropertyCallback}) {
+function PropertyForm({user, handleCloseForm}) {
+  let localResults = {
+    capRate: 0,
+    cashFlow: 0,
+    cashOnCashReturn: 0,
+    grossYield: 0,
+    operatingExpenseRatio: 0,
+    debtServiceCoverageRatio: 0,
+    monthlyCashFlow: 0,
+    cashNeededToClose: 0,
+    cashReceivedAtClosing: 0,
+  }
+
+  useEffect(() => {
+    console.log("User in Form", user)
+  },[])
 
   const [formData, setFormData] = useState({
     "property_name": '',
@@ -104,7 +119,8 @@ function PropertyForm({newPropertyCallback}) {
       (Math.pow(1 + loanInterestDecimal / 12, loan_term * 12) - 1);
 
     const totalOperatingExpenses =
-    ((insurance || 0) +
+    (
+      (insurance || 0) +
       (maintenance || 0) +
       (association_fees || 0) +
       (electricity || 0) +
@@ -121,32 +137,57 @@ function PropertyForm({newPropertyCallback}) {
       (sewer_water || 0) +
       (supplies || 0) +
       (trash || 0) +
-      (miscellaneous || 0)) *
-      12;
+      (miscellaneous || 0)
+    ) 
+      * 12;
+    
 
       const netOperatingIncome = annualRent - totalOperatingExpenses;
-      // console.log(netOperatingIncome);
+      console.log("Net operating income", netOperatingIncome);
 
     const capRate = ((netOperatingIncome || 0) / (property_price || 0)) * 100;
+    console.log(capRate)
     const cashFlow = (netOperatingIncome || 0) - (mortgagePayment || 0) * 12;
+    console.log(cashFlow)
     const cashOnCashReturn =
       ((cashFlow || 0) / ((downPaymentAmount || 0) + (closing_costs || 0))) *
       100;
+      console.log(cashOnCashReturn)
     const grossYield = ((annualRent || 0) / (property_price || 0)) * 100;
+    console.log(grossYield)
     const operatingExpenseRatio =
       ((totalOperatingExpenses || 0) / (annualRent || 0)) * 100;
+      console.log(operatingExpenseRatio)
     const debtServiceCoverageRatio =
       (netOperatingIncome || 0) / ((mortgagePayment || 0) * 12);
+      console.log(debtServiceCoverageRatio)
     const monthlyCashFlow = (cashFlow || 0) / 12;
+    console.log(monthlyCashFlow)
 
     const cashNeededToClose =
       (downPaymentAmount || 0) + (closing_costs || 0) - (seller_credits || 0);
+      console.log(cashNeededToClose)
     const cashReceivedAtClosing =
       (cashNeededToClose || 0) < 0 ? Math.abs(cashNeededToClose || 0) : 0;
+      console.log(cashReceivedAtClosing)
     const displayCashNeededToClose =
       (cashNeededToClose || 0) < 0 ? 0 : cashNeededToClose || 0;
+      console.log(displayCashNeededToClose)
+
+      localResults = {
+        capRate,
+        cashFlow,
+        cashOnCashReturn,
+        grossYield,
+        operatingExpenseRatio,
+        debtServiceCoverageRatio,
+        monthlyCashFlow,
+        cashNeededToClose: displayCashNeededToClose,
+        cashReceivedAtClosing,
+      }    
 
       setResults({
+        ...results,
         capRate,
         cashFlow,
         cashOnCashReturn,
@@ -157,6 +198,8 @@ function PropertyForm({newPropertyCallback}) {
         cashNeededToClose: displayCashNeededToClose,
         cashReceivedAtClosing,
       });
+
+      console.log("Results after setting state", results)
 
   }
 
@@ -172,18 +215,31 @@ function PropertyForm({newPropertyCallback}) {
   async function handleSubmit(event) {
     event.preventDefault();
     await handleResults();
-    // console.log("resultsObj", resultsObj)
+    console.log("results before parsing", results)
+    // const resultsObj = {
+    //   cap_rate: parseFloat(results.capRate.toFixed(2)), 
+    //   cash_flow: parseFloat(results.cashFlow.toFixed(2)),
+    //   cash_needed_to_close: parseFloat(results.cashNeededToClose.toFixed(2)),
+    //   cash_received_at_closing: parseFloat(results.cashReceivedAtClosing.toFixed(2)),
+    //   cash_on_cash_return: parseFloat(results.cashOnCashReturn.toFixed(2)),
+    //   monthly_cash_flow: parseFloat(results.monthlyCashFlow.toFixed(2)),
+    //   debt_service_coverage_ratio: parseFloat(results.debtServiceCoverageRatio.toFixed(2)),
+    //   operating_expense_ratio: parseFloat(results.operatingExpenseRatio.toFixed(2)),
+    //   gross_yield: parseFloat(results.grossYield.toFixed(2)),
+    // }
     const resultsObj = {
-      cap_rate: parseFloat(results.capRate.toFixed(2)), 
-      cash_flow: parseFloat(results.cashFlow.toFixed(2)),
-      cash_needed_to_close: parseFloat(results.cashNeededToClose.toFixed(2)),
-      cash_received_at_closing: parseFloat(results.cashReceivedAtClosing.toFixed(2)),
-      cash_on_cash_return: parseFloat(results.cashOnCashReturn.toFixed(2)),
-      monthly_cash_flow: parseFloat(results.monthlyCashFlow.toFixed(2)),
-      debt_service_coverage_ratio: parseFloat(results.debtServiceCoverageRatio.toFixed(2)),
-      operating_expense_ratio: parseFloat(results.operatingExpenseRatio.toFixed(2)),
-      gross_yield: parseFloat(results.grossYield.toFixed(2)),
+      cap_rate: parseFloat(localResults.capRate.toFixed(2)), 
+      cash_flow: parseFloat(localResults.cashFlow.toFixed(2)),
+      cash_needed_to_close: parseFloat(localResults.cashNeededToClose.toFixed(2)),
+      cash_received_at_closing: parseFloat(localResults.cashReceivedAtClosing.toFixed(2)),
+      cash_on_cash_return: parseFloat(localResults.cashOnCashReturn.toFixed(2)),
+      monthly_cash_flow: parseFloat(localResults.monthlyCashFlow.toFixed(2)),
+      debt_service_coverage_ratio: parseFloat(localResults.debtServiceCoverageRatio.toFixed(2)),
+      operating_expense_ratio: parseFloat(localResults.operatingExpenseRatio.toFixed(2)),
+      gross_yield: parseFloat(localResults.grossYield.toFixed(2)),
     }
+
+    console.log('resultsObj after parsing', resultsObj)
 
   
     const propertyDetailsString = Object.entries(formData)
@@ -197,6 +253,7 @@ function PropertyForm({newPropertyCallback}) {
     // console.log(propertyResultsString)
     
     const dbObj = {
+      user_id: user.id,
       ...formData, 
       ...resultsObj,
       property_details_string: propertyDetailsString,
@@ -217,6 +274,7 @@ function PropertyForm({newPropertyCallback}) {
     } catch (error) {
       console.log(error)
     }
+    handleCloseForm();
 }
 
   useEffect(() => {

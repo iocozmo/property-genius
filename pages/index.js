@@ -1,16 +1,84 @@
 import Navbar from '@/components/navbar'
+import { useSession } from '@/context/user'
+import { supabase } from '@/lib/client'
 import { Button, Container, Flex, Heading, Image, Text } from '@chakra-ui/react'
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 const inter = Inter({ subsets: ['latin'] })
 
-function handleOpenApp() {
-  
-}
+// export default function Home({session}) {
+  export default function Home() {
+  const supabaseClient = useSupabaseClient();
+  console.log(supabaseClient)
+  const user = useUser()
+  console.log("User from useUser()", user)
 
-export default function Home() {
+    // const {user, session} = useSession();
+    const session = useSession();
+  // console.log("User", user);
+  console.log("session", session)
+    // const [session, setSession] = useState();
+  // const {user, session} = useSession()
+  // console.log("session", session);
+  // console.log("user", user)
+  // const session = typeof(sessionContext);
+  // const user = session.user;
+  // console.log("session", session)
+  // console.log("user", user)
+
+    // async function getSession() {
+    //   const {sessionContext} = await useSession();
+    //   setSession(sessionContext)
+    // }
+    // getSession()
+    // console.log(session)
+  
   const router = useRouter()
+
+  const handleNavigateToDashboard = async () => {
+    if (!user)  {
+      router.push('/login')
+    } else {
+      router.push('/dashboard')
+    }
+  }
+
+  const checkUserSession = async () => {
+    try {
+      const {data, error} = await supabase.auth.getSession();
+      console.log("DATA FROM SESSIOON: ", data)
+      if (data.session.user) {
+        router.push('/dashboard')
+      }
+      
+    } catch (e) {
+      console.log(e)
+    }
+  } 
+
+  // useEffect(() => {
+
+    // checkUserSession();    
+
+    // user is taken 
+    // const { data: authListener } = supabase.auth.onAuthStateChange((event, supabaseSession) => {
+    //   console.log(event, supabaseSession)
+    //   if (event === 'SIGNED_OUT') {
+    //     router.push('/');
+    //   }
+    //   if (event === 'SIGNED_IN') {
+    //     router.replace('/dashboard')
+    //   }
+    // });
+
+    // return () => {
+    //   authListener.unsubscribe();
+    // };
+  // }, []);
+
+  
   return (
     <>
       <Head>
@@ -27,7 +95,7 @@ export default function Home() {
         </Container>
         <Flex alignItems={'center'} justifyContent={'center'} mt='6'>
           <Button colorScheme='messenger'
-          onClick={() => router.push('/dashboard')}
+          onClick={handleNavigateToDashboard}
           >
             Open Application
           </Button>

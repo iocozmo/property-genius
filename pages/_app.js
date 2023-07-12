@@ -1,26 +1,69 @@
+// import UserContext from '@/lib/UserContext';
+// import { supabase } from '@/lib/client';
 import '@/styles/globals.css';
 import { ChakraProvider } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { supabase } from '../lib/client';
+import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
+import { SessionContextProvider } from '@supabase/auth-helpers-react';
+import { useState } from 'react';
 
 
 export default function App({ Component, pageProps }) {
-  const router = useRouter();
-  // const user = supabase.auth.getUser()
-
-  useEffect(() => {
-    const {data: authListener} = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        // handleAuthSession(event, session);
-        // if (event == 'SIGNED_IN')
-      }
-    )
-  })
+  const [supabaseClient] = useState(() => createPagesBrowserClient())
+  // const [session, setSession] = useState();
+  // const [user, setUser] = useState();
+  // const router = useRouter();
 
   return (
-  <ChakraProvider>
-      <Component {...pageProps} />
-  </ChakraProvider>
+    <ChakraProvider>
+      {/* <UserProvider> */}
+      <SessionContextProvider
+      supabaseClient={supabaseClient}
+      initialSession={pageProps.initialSession}
+      >
+        <Component {...pageProps}/>
+        </SessionContextProvider>
+      {/* </UserProvider> */}
+    </ChakraProvider>
   )
+
+  // const saveSession = async () => {
+  //   try {
+  //     // const {data, error} = await supabase.auth.getSession();
+  //     const currentUser = session?.user;
+  //     setUser(currentUser ?? null)
+  //     setSession(data);
+  //     if (currentUser) {
+  //       router.push('/dashboard')
+  //     }
+  //     if (error) {
+  //       console.log(error)
+  //     }
+  //   } catch(e) {
+  //     console.log(e);
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   // getAuthSession();
+  //   supabase.auth.getSession().then(({ data: { session }}) => saveSession(session))
+  //   const {subscription: authListener} = supabase.auth.onAuthStateChange(async (event, session) => saveSession(session))
+
+  //   return () => {
+  //     authListener.unsubscribe()
+  //   }
+  // },[])
+  
+  // return (
+  // <ChakraProvider>
+    {/* <UserContext.Provider
+    value={{
+      user
+    }}
+    > */}
+    {/* <Component {...pageProps} /> */}
+      {/* <Component {...pageProps} session={session} /> */}
+    {/* </UserContext.Provider> */}
+      
+  // </ChakraProvider>
+  // )
 }

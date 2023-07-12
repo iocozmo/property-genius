@@ -1,5 +1,7 @@
-import { supabase } from "@/lib/client";
+// import { supabase } from "@/lib/client";
 import { Alert, AlertIcon, Button, Center, Container, Flex, FormControl, Image, Input, Text, chakra } from "@chakra-ui/react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function Login() {
@@ -7,7 +9,9 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
     const [error, setError] = useState(null)
-    
+    const router = useRouter();
+    const supabase = createClientComponentClient()
+
     const submitHandler = async (event) => {
         event.preventDefault();
         setIsLoading(true);
@@ -17,7 +21,8 @@ export default function Login() {
             const {error} = await supabase.auth.signInWithOtp({
                 email,
                 options: {
-                    emailRedirectTo: 'localhost:3000/dashboard'
+                    emailRedirectTo: `${process.env.CLIENT_URL}`
+                    // emailRedirectTo:
                 }
             })
             if (error) {
@@ -29,6 +34,7 @@ export default function Login() {
             setError(error.message)
         } finally {
             setIsLoading(false)
+            // router.refresh()
         }
     };
     
@@ -38,9 +44,7 @@ export default function Login() {
     }
     
     async function signIn() {
-        const {error, data} = await supabase.auth.signIn({
-            email
-        })
+        const {error, data} = await supabase.auth.signIn({email})
         if (error) {
             console.log({error})
         } else {

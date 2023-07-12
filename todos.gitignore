@@ -1,0 +1,31 @@
+====TODOS====
+
+===BACKEND===
+[] Secure endpoint for stripe subscription
+[] Use service level supabase clientt in stripe.js
+
+===FRONTEND===
+[] Ensure user state management is in place
+
+===TODAY===
+[] Finish stripe integration
+    [x] Create webhooks for events
+    [x] Ensure that we have subscription data in our Stripe Users tablee
+    [] Check if customer is paid customer in order to give them access to the dashboard
+    [] Dashboard must be gate-kept
+
+===PENDING===
+[] Do we want them to be able to manage their subscription?s
+
+
+===THINKING====
+Users signs up -> data is sent to supabase
+Need to get stripe_id
+We can use webhook after subscription is created
+
+When property is added
+-> scroll into chat
+-> auto create new message that suggests questions the user can ask with a buttoon
+    -> on button click
+        -> extract the question text and send the question to the DB
+-> When assistant is loading, add a tiny circular progreess bar
