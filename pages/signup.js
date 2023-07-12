@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/client";
 import { Alert, AlertIcon, Button, Center, Container, Flex, FormControl, Input, Text, chakra, useToast } from "@chakra-ui/react";
 import { loadStripe } from "@stripe/stripe-js";
-import { axios } from "axios";
+import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 

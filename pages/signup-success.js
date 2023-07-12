@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/client";
 import { Alert, AlertIcon, Center, Container, Flex, Image, Spinner, Text } from '@chakra-ui/react';
-import { axios } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 
 

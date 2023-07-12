@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/client";
-import { axios } from "axios";
+import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
 const Context = createContext();
