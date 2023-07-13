@@ -1,16 +1,16 @@
 import { supabase } from "@/lib/client";
-import { Alert, AlertIcon, Button, Center, Container, Flex, FormControl, Input, Text, chakra, useToast } from "@chakra-ui/react";
+import { Alert, AlertIcon, Button, Center, Container, Flex, FormControl, Input, Text, chakra } from "@chakra-ui/react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const stripePromise = loadStripe(
-    process.env.STRIPE_TEST_PUBLIC_KEY
+    process.env.NEXT_PUBLIC_STRIPE_KEY
 )
 
 export default function SignUp() {
-    const toast = useToast();
+    const toast = useqToast();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)

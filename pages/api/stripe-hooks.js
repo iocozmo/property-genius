@@ -8,7 +8,7 @@ import Stripe from 'stripe';
 export const config = {api: {bodyParser: false}}
 
 const handler = async (req,res) => {
-    const stripe = new Stripe(process.env.STRIPE_TEST_SECRET_KEY)
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
     const sig = req.headers['stripe-signature']
     const reqBuffer = await buffer(req)
     let event;
