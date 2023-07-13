@@ -1,10 +1,19 @@
 // import UserContext from '@/lib/UserContext';
 // import { supabase } from '@/lib/client';
 import '@/styles/globals.css';
+import theme from '@/theme';
 import { ChakraProvider } from '@chakra-ui/react';
 import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
 import { SessionContextProvider } from '@supabase/auth-helpers-react';
 import { useState } from 'react';
+
+
+// const config = {
+//   initialColorMode: 'light',
+//   useSystemColorMode: false,
+// }
+
+// export const theme = extendTheme({ config })
 
 
 export default function App({ Component, pageProps }) {
@@ -12,9 +21,10 @@ export default function App({ Component, pageProps }) {
   // const [session, setSession] = useState();
   // const [user, setUser] = useState();
   // const router = useRouter();
+  // 1. Import the extendTheme function
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       {/* <UserProvider> */}
       <SessionContextProvider
       supabaseClient={supabaseClient}
