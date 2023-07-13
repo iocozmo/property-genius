@@ -21,7 +21,7 @@ const inter = Inter({ subsets: ['latin'] })
 
   async function handleNavigateToDashboard() {
     // console.log('CLICKED OPEN APPLICATION')
-    if (user)  {
+    if (user['role'] === 'authenticated')  {
       router.push('/dashboard')      
     } else {
       router.push('/login')
