@@ -51,7 +51,16 @@ export default function SignUp() {
             if (error) {
                 console.log(error)
                 setError(error.message)
-            }             
+            }     
+            
+            toast({
+                title: 'Account created.',
+                description: "You will now be redirected to Stripe.",
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+              })
+            
             // Get user_id for newly signed up user
             let { data: User, e } = await supabase
             .from('Users')
@@ -63,13 +72,6 @@ export default function SignUp() {
                 headers: { originUrl: '/signup'}
             };
 
-            toast({
-                title: 'Account created.',
-                description: "You will now be redirected to Stripe.",
-                status: 'success',
-                duration: 9000,
-                isClosable: true,
-              })
 
             // Create stripe checkouot sessioon
             const res = await axios.post('/api/stripe-checkout', {email: formData.email, user_id: userId}, config)             
