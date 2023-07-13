@@ -10,7 +10,7 @@ const stripePromise = loadStripe(
 )
 
 export default function SignUp() {
-    const toast = useToast();
+    // const toast = useToast();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
