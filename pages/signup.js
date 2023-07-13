@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/client";
-import { Alert, AlertIcon, Button, Center, Container, Flex, FormControl, Input, Text, chakra } from "@chakra-ui/react";
+import { Alert, AlertIcon, Button, Center, Container, Flex, FormControl, Input, Text, chakra, useToast } from "@chakra-ui/react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -10,7 +10,7 @@ const stripePromise = loadStripe(
 )
 
 export default function SignUp() {
-    // const toast = useToast();
+    const toast = useToast();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false)
     const [isSubmitted, setIsSubmitted] = useState(false)
@@ -41,7 +41,7 @@ export default function SignUp() {
             const {error} = await supabase.auth.signInWithOtp({
                email: formData.email,
                options: {
-                emailRedirectTo: `${process.env.CLIENT_URL}`,
+                emailRedirectTo: `${process.env.CLIENT_URL}/dashboard`,
                 data: {
                     name: formData.name,
                     city: formData.city
@@ -62,6 +62,15 @@ export default function SignUp() {
             const config = {                
                 headers: { originUrl: '/signup'}
             };
+
+            toast({
+                title: 'Account created.',
+                description: "You will now be redirected to Stripe.",
+                status: 'success',
+                duration: 9000,
+                isClosable: true,
+              })
+
             // Create stripe checkouot sessioon
             const res = await axios.post('/api/stripe-checkout', {email: formData.email, user_id: userId}, config)             
             
