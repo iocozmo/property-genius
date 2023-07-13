@@ -14,34 +14,17 @@ const inter = Inter({ subsets: ['latin'] })
   console.log(supabaseClient)
   const user = useUser()
   console.log("User from useUser()", user)
-
-    // const {user, session} = useSession();
-    const session = useSession();
-  // console.log("User", user);
-  console.log("session", session)
-    // const [session, setSession] = useState();
-  // const {user, session} = useSession()
-  // console.log("session", session);
-  // console.log("user", user)
-  // const session = typeof(sessionContext);
-  // const user = session.user;
-  // console.log("session", session)
-  // console.log("user", user)
-
-    // async function getSession() {
-    //   const {sessionContext} = await useSession();
-    //   setSession(sessionContext)
-    // }
-    // getSession()
-    // console.log(session)
+  const session = useSession();
+  console.log("session", session)  
   
   const router = useRouter()
 
-  const handleNavigateToDashboard = async () => {
-    if (!user)  {
-      router.push('/login')
+  async function handleNavigateToDashboard() {
+    // console.log('CLICKED OPEN APPLICATION')
+    if (user)  {
+      router.push('/dashboard')      
     } else {
-      router.push('/dashboard')
+      router.push('/login')
     }
   }
 
@@ -57,27 +40,6 @@ const inter = Inter({ subsets: ['latin'] })
       console.log(e)
     }
   } 
-
-  // useEffect(() => {
-
-    // checkUserSession();    
-
-    // user is taken 
-    // const { data: authListener } = supabase.auth.onAuthStateChange((event, supabaseSession) => {
-    //   console.log(event, supabaseSession)
-    //   if (event === 'SIGNED_OUT') {
-    //     router.push('/');
-    //   }
-    //   if (event === 'SIGNED_IN') {
-    //     router.replace('/dashboard')
-    //   }
-    // });
-
-    // return () => {
-    //   authListener.unsubscribe();
-    // };
-  // }, []);
-
   
   return (
     <>

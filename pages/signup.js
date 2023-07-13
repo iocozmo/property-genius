@@ -41,6 +41,7 @@ export default function SignUp() {
             const {error} = await supabase.auth.signInWithOtp({
                email: formData.email,
                options: {
+                emailRedirectTo: `${process.env.CLIENT_URL}`,
                 data: {
                     name: formData.name,
                     city: formData.city

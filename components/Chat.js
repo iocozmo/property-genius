@@ -136,29 +136,7 @@ function Chat({isLoading, propertiesLen, selectedProperty}) {
         </Flex>        
       )
       } */}
-      <VStack spacing={2} px={30} >
-      {isLoading && (
-            <Flex 
-            // maxW="25%"
-            // pt={4}
-            px={4}
-            bg={"gray.100"}
-            color={"black"}
-            mt={'10'}
-            // ml={'7'}
-            borderRadius="md"
-            direction={'column'}
-            justifySelf={'self-start'}
-            > 
-            {/* <Flex direction={'column'} gap={'4'}> */}
-              <Text fontSize={'9px'}> Property Genius is thinking...</Text>
-              {/* <CircularProgress size={'30px'} isIndeterminate /> */}
-              <Progress size='xs' isIndeterminate />
-            {/* </Flex> */}
-              {/* <Progress size='xs' isIndeterminate /> */}
-            </Flex>
-            // <LoadingBubble />
-      )}
+      <VStack spacing={2} px={30} >     
         {/* {hasMessages && (
         <Flex height={'100%'} alignItems={'center'} justifyContent={'center'}>
           <Center>
