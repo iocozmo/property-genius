@@ -1,4 +1,5 @@
-import { createPagesServerClient } from '@supabase/auth-helpers-nextjs'
+import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
+import { redirect } from 'next/navigation';
 
 const handler = async (req, res) => {
   const { code } = req.query
@@ -6,9 +7,10 @@ const handler = async (req, res) => {
   if (code) {
     const supabase = createPagesServerClient({ req, res })
     await supabase.auth.exchangeCodeForSession(String(code))
+    redirect('/dashboard')
   }
 
-  res.redirect('/')
+  // res.redirect('/')
 }
 
 export default handler

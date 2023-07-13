@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+
 const stripePromise = loadStripe(
     process.env.NEXT_PUBLIC_STRIPE_KEY
 )
@@ -41,7 +42,7 @@ export default function SignUp() {
             const {error} = await supabase.auth.signInWithOtp({
                email: formData.email,
                options: {
-                emailRedirectTo: `${process.env.CLIENT_URL}/dashboard`,
+                emailRedirectTo: `${process.env.CLIENT_URL}/api/auth/callback`,
                 data: {
                     name: formData.name,
                     city: formData.city
