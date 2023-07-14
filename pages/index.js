@@ -1,11 +1,12 @@
-import Navbar from '@/components/navbar'
-import { useSession } from '@/context/user'
-import { supabase } from '@/lib/client'
-import { Button, Container, Flex, Heading, Image, Text } from '@chakra-ui/react'
-import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react'
-import { Inter } from 'next/font/google'
-import Head from 'next/head'
-import { useRouter } from 'next/router'
+import Navbar from '@/components/navbar';
+import { useSession } from '@/context/user';
+import { supabase } from '@/lib/client';
+import { Button, Container, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
+import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+import { Inter } from 'next/font/google';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 const inter = Inter({ subsets: ['latin'] })
 
 // export default function Home({session}) {
@@ -21,9 +22,12 @@ const inter = Inter({ subsets: ['latin'] })
 
   async function handleNavigateToDashboard() {
     // console.log('CLICKED OPEN APPLICATION')
-    if (user['role'] === 'authenticated')  {
-      router.push('/dashboard')      
-    } else {
+    if (user) {
+      if (user['role'] === 'authenticated')  {
+        router.push('/dashboard')      
+      }  
+    }
+     else {
       router.push('/login')
     }
   }
