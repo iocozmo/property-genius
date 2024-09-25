@@ -10,7 +10,7 @@ Property Genuis is an AI chat engine for commercial property owners. This was bu
 - Stripe payment gate
 
 ### Demo
-https://github.com/user-attachments/assets/1247b4dc-daa6-4716-a530-a74c96d80edf
+https://github.com/user-attachments/assets/c890173d-87fc-4076-822b-1d77801f4d63
 
 ### My Contributions
 - API Design
@@ -19,7 +19,6 @@ https://github.com/user-attachments/assets/1247b4dc-daa6-4716-a530-a74c96d80edf
 - Node.js backend (Open AI Integration)
 - Design
 - Prompt Creation
-- Data cleansing
 
 ------------------------------------------------------------
 ## Project Setup
