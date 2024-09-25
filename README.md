@@ -1,6 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## What is Property Genuis?
+Property Genuis is an AI chat engine for commercial property owners. 
+
+### Features
+- Leverage GPT to chat with property information
+- Chat with multiple properties
+- Authentication via Supabase
+- Stripe payment gate
+
+### Demo
+https://github.com/user-attachments/assets/1247b4dc-daa6-4716-a530-a74c96d80edf
+
+### My Contributions
+- API Design
+- Webhook Implementation
+- Next.js front-end
+- Node.js backend
+- Design
+- Prompt Creation
+- Data cleansing
+
+------------------------------------------------------------
+## Project Setup
 
 First, run the development server:
 
