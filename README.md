@@ -1,10 +1,11 @@
 
 ## What is Property Genuis?
-Property Genuis is an AI chat engine for commercial property owners. 
+Property Genuis is an AI chat engine for commercial property owners. This was built for a freelance client. 
 
 ### Features
 - Leverage GPT to chat with property information
 - Chat with multiple properties
+- Property CRUD
 - Authentication via Supabase
 - Stripe payment gate
 
@@ -15,7 +16,7 @@ https://github.com/user-attachments/assets/1247b4dc-daa6-4716-a530-a74c96d80edf
 - API Design
 - Webhook Implementation
 - Next.js front-end
-- Node.js backend
+- Node.js backend (Open AI Integration)
 - Design
 - Prompt Creation
 - Data cleansing
