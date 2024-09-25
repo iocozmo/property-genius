@@ -8,7 +8,7 @@ function ChatInput({hanldeLoadingState, handleInputSubmit, selectedProperty}) {
   const [apiResponseReader, setApiResponseReader] = useState(null);
   const [userMessage, setUserMessage] = useState("");
   const [apiKey, setApiKey] = useState(
-    "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"
+    ""
   );
   const [gptOutput, setGptOutput] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
