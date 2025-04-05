@@ -1,6 +1,6 @@
 
 ## What is Property Genuis?
-Property Genuis is an AI chat engine for commercial property owners. This was built for a freelance client. 
+Property Genuis is an AI chat engine for commercial property owners
 
 ### Features
 - Leverage GPT to chat with property information
